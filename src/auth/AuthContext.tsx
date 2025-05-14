@@ -14,6 +14,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = (email: string, password: string) => {
     if (email && password) {
       const fakeToken = 'fake-token-123';
+      console.log({ response: { status: 200, token: fakeToken, message: "Success" } });
       setToken(fakeToken);
       sessionStorage.setItem('fake-token', fakeToken);
     }
