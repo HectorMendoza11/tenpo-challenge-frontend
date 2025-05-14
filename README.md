@@ -1,46 +1,118 @@
-# Getting Started with Create React App
+# React Auth App (TypeScript + MUI)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Una aplicación React que implementa autenticación simulada, navegación con contextos público/privado, y consumo de una API pública para mostrar una lista de datos. Incluye un diseño responsivo con Material UI y preparado para escalar con nuevas secciones.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## ✅ Características principales
 
-### `yarn start`
+- Login simulado con email y contraseña
+- Persistencia de token en `sessionStorage`
+- Routing con React Router
+- Contexto de autenticación global
+- Sidebar con navegación y logout
+- Home con datos desde una API pública (2000 elementos)
+- UI responsiva con Material UI
+- Arquitectura lista para escalar (módulos públicos y privados)
+- Token incluido como parámetro en los requests (aunque no sea requerido)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+---
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 🚀 Instalación y uso
 
-### `yarn test`
+### 1. Requisitos
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Node.js >= 18
+- npm >= 9
 
-### `yarn build`
+### 2. Clonar y configurar
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+git clone https://github.com/tu_usuario/tenpo-challenge-frontend.git
+cd react-auth-app
+npm install
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 3. Ejecutar en modo desarrollo
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm start
+```
 
-### `yarn eject`
+La aplicación estará disponible en [http://localhost:3000](http://localhost:3000)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+---
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🧱 Estructura del proyecto
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```
+src/
+├── api/               # Configuración global de Axios
+│   └── axios.ts
+├── auth/              # Contexto de autenticación
+│   └── AuthContext.tsx
+├── components/        # Componentes compartidos
+│   └── Sidebar.tsx
+├── pages/             # Páginas principales
+│   ├── Login.tsx
+│   └── Home.tsx
+├── App.tsx            # Enrutamiento
+└── index.tsx          # Entry point
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+---
 
-## Learn More
+## 🔒 Autenticación y Context
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- El contexto `AuthContext` administra el token simulado.
+- Si el login es exitoso (cualquier email/password), se almacena un `fake-token` en `sessionStorage`.
+- El logout limpia el token y redirige al login.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
+
+## 🗺️ Navegación
+
+- Rutas protegidas: `Home` requiere un token.
+- Rutas públicas: `Login`.
+- Redirección automática si el usuario no está autenticado.
+- Sidebar permanente en secciones privadas, con la opción seleccionada destacada.
+
+---
+
+## 🌐 Home + API pública
+
+- Se consumen datos desde `https://jsonplaceholder.typicode.com/photos?token=${token}`
+- Se muestran 2000 elementos (aunque el endpoint devuelve 5000).
+- Cada elemento se renderiza centrado, en una única columna, con diseño responsivo.
+
+---
+
+## ⚙️ Axios configurado
+
+Archivo: `src/api/axios.ts`
+
+- Se interceptan los requests para agregar el token como `Authorization: Bearer <token>`.
+- En Home, el token también se pasa como parámetro para simular su uso:  
+  `...?token=fake-token`.
+
+---
+
+## 📦 Tecnologías usadas
+
+- [React](https://reactjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [React Router](https://reactrouter.com/)
+- [Material UI](https://mui.com/)
+- [Axios](https://axios-http.com/)
+
+---
+
+## 🔁 Estrategias de mejora (rendimiento)
+
+Actualmente se renderizan 2000 elementos. Para mejorar eficiencia:
+
+- Usar **paginado** (dividir en páginas de 50, 100, etc.).
+- Implementar **scroll virtual** (`react-window`, `react-virtualized`) para renderizar solo los elementos visibles.
+- Cache de resultados si se recorre varias veces.
+
+---
