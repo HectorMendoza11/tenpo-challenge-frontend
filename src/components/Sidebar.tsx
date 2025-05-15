@@ -66,6 +66,7 @@ export default function Sidebar() {
                 '& .MuiDrawer-paper': {
                     width: drawerWidth,
                     boxSizing: 'border-box',
+                    overflow: "hidden",
                 },
                 }}
             >
